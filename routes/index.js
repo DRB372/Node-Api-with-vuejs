@@ -16,7 +16,7 @@ router.post(
     body("description").trim().isLength({ min: 5 }).escape(),
     body("notes").trim().isLength({ min: 5 }).escape(),
     body("url").trim().isLength({ min: 5 }).escape(),
-    body("topicID").trim().isLength({ min: 5 }).escape()
+    
   ],
   indexController.createPost
 );
@@ -30,7 +30,6 @@ router.put(
     body("description").trim().isLength({ min: 5 }).escape(),
     body("notes").trim().isLength({ min: 5 }).escape(),
     body("url").trim().isLength({ min: 5 }).escape(),
-    body("topicID").trim().isLength({ min: 5 }).escape()
   
   ],
   indexController.updatePost

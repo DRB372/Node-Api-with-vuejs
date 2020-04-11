@@ -19,6 +19,8 @@ exports.getPosts = (req, res, next) => {
 
 exports.createPost = (req, res, next) => {
   const errors = validationResult(req);
+  
+  console.log(req.body)
   if (!errors.isEmpty()) {
     const error = new Error("Validation failed, entered data is incorrect.");
     error.statusCode = 422;
@@ -74,6 +76,8 @@ exports.getPost = (req, res, next) => {
 
 exports.updatePost = (req, res, next) => {
   const postId = req.params.postId;
+  
+  console.log(req.body)
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = new Error("Validation failed, entered data is incorrect.");
@@ -84,7 +88,7 @@ exports.updatePost = (req, res, next) => {
   const description = req.body.description;
   const notes = req.body.notes;
   const url = req.body.url;
-  const topicID = req.body.topicID;
+  const topicID = req.body.category;
 
   Post.findByPk(postId)
     .then((post) => {
@@ -115,6 +119,7 @@ exports.deletePost = (req, res, next) => {
   const postId = req.params.postId;
   Post.findByPk(postId)
     .then(post => {
+      console.log("deleting")
       if (!post) {
         const error = new Error('Could not find post.');
         error.statusCode = 404;
