@@ -6,3 +6,6 @@ const sequelize = new Sequelize('nodeapi', 'root', '', {
 });
 
 module.exports = sequelize;
+// database name: nodeapi 
+// localhost: root 
+// password: null
