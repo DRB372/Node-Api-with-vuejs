@@ -41,7 +41,7 @@
           <div class="form-group">
             <label for="topicID">Topic *</label>
             <select class="form-control" id="topicID" v-model="topicID">
-              <option v-for="(option) in topic" :value="option.id" :key="option.id">{{ option.topicName }}</option>
+              <option v-for="(option,index) in topic" :value="option.id" :key="index">{{ option.topicName }}</option>
             </select>
           </div>
           <div class="form-group">
@@ -77,9 +77,9 @@
                     <select class="form-control" v-model="search.category">
                       <option value disabled selected>Category</option>
                       <option
-                        v-for="option in topic"
+                        v-for="(option,index) in topic"
                         :value="option.id"
-                        :key="option"
+                        :key="index"
                       >{{option.topicName}}</option>
                     </select>
                   </th>
@@ -100,12 +100,12 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="row in products"
+                  v-for="(row,index) in products"
                   v-on:click="clickProduct(row)"
-                  :key="row"
+                  :key="index"
                   :class="{selected: row.selected }"
                 >
-                  <td>{{topic[row.topicID-1].topicName}}</td>
+                  <td v-if="topic[row.topicID]">{{topic[row.topicID-1]["topicName"]}}</td>
                   <td>{{row.linkName}}</td>
                   <td>{{row.description}}</td>
                   <td class="center-column">
@@ -124,7 +124,6 @@
 </template>
 
 <script>
-
 
 export default {
   /* eslint-disable */
