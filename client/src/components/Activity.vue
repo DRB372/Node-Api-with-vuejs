@@ -48,13 +48,14 @@
             <button class="btn btn-primary" v-on:click="addProduct">Add</button>
             <button class="btn btn-primary" v-on:click="updateProduct">Update</button>
             <button class="btn btn-secondary" v-on:click="resetProduct">Reset</button>
+            <button class="btn btn-danger" v-on:click="generatePDF">Generate PDf</button>
           </div>
         </form>
       </div>
       <div class="row bg-light text-dark col-sm-8">
         <div class="bg-secondary">
           <div class="row-table">
-            <table class="table table-dark table-hover bg-secondary">
+            <table class="table table-dark table-hover bg-secondary" ref="ActivityTable">
               <thead>
                 <tr>
                   <th class="sort" v-on:click="sortClick('category')">
@@ -124,7 +125,8 @@
 </template>
 
 <script>
-
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
 export default {
   /* eslint-disable */
   name: "HelloWorld",
@@ -143,39 +145,7 @@ export default {
         { id: 2, topicName: "News" },
         { id: 3, topicName: "Entertainment" }
       ],
-      products: [
-        {
-          id: 1,
-          linkName: "Olympics",
-          description: "Olympics 2020 postpone",
-          notes:
-            "THE PRESIDENT OF THE INTERNATIONAL OLYMPIC COMMITTEE (IOC), THOMAS BACH, AND THE PRIME MINISTER OF JAPAN, ABE SHINZO, HELD A CONFERENCE CALL THIS MORNING TO DISCUSS THE CONSTANTLY CHANGING ENVIRONMENT WITH REGARD TO COVID-19 AND THE OLYMPIC GAMES TOKYO 2020.",
-          url:
-            "https://www.olympic.org/news/joint-statement-from-the-international-olympic-committee-and-the-tokyo-2020-organising-committee",
-          category: "Sport",
-          selected: false
-        },
-        {
-          id: 2,
-          linkName: "Fake",
-          description: "Trump Tweet Something",
-          notes:
-            "The Radical Left Democrats have gone absolutely crazy that I am doing daily Presidential News Conferences. They actually want me to STOP! They used to complain that I am not doing enough of them, now they complain that I “shouldn’t be allowed to do them.” They tried to shame.....",
-          url: "https://twitter.com/realDonaldTrump",
-          category: "News",
-          selected: false
-        },
-        {
-          id: 3,
-          linkName: "Netflix",
-          description: "Excellent for training",
-          notes:
-            "In mid-January, a series of stories swept the entertainment industry press that suggested a seismic shift has happened in the way people watch TV and movies: Netflix started releasing viewership numbers for some of its biggest hits — and they were massive.",
-          url: "https://www.netflix.com/ie/",
-          category: "Entertainment",
-          selected: false
-        }
-      ],
+      products: [],
 
       originalProducts: [],
       //use for search
@@ -229,6 +199,20 @@ export default {
     }
   },
   methods: {
+    generatePDF(row){
+        var i=0;
+var body=[];
+   var head = [['ID', 'Category', 'Link Name', 'Description']]
+var doc= new jsPDF('p','pt');
+      this.products.map(() => {
+        var k= (this.products[i].topicID)-1;
+    body.push([this.products[i].id,this.topic[k].topicName,  this.products[i].linkName, this.products[i].description]);
+i++;
+});
+ doc.autoTable({ head: head, body:body})
+
+    doc.save('Activity.pdf');
+ },
     onFileChanged(event) {
       const file = event.target.files[0];
     },

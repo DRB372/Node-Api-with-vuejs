@@ -22,7 +22,7 @@ app.use((error, req, res, next) => {
   const message = error.message;
   res.status(status).json({ message: message });
 });
-// sequelize.sync({force=true}).then(result=>{
+// sequelize.sync({force :true}).then(result=>{
 
 sequelize.sync().then(result=>{
   app.listen(3000);
